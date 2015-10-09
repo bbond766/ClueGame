@@ -1,7 +1,7 @@
 package clueGame;
 
 public enum DoorDirection {
-	UP('U'), DOWN('D'), LEFT('L'), RIGHT('R'), NONE('N');
+	UP('U'), DOWN('D'), LEFT('L'), RIGHT('R');
     private char value;
 
     private DoorDirection(char value) {
