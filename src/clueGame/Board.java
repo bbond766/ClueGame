@@ -22,7 +22,7 @@ public class Board {
 	public void loadBoardConfig(String filename){
 		
 	}
-	public void calcAdjancies(){
+	public void calcAdjacencies(){
 		
 	}
 	public void calcTargets(int row, int col, int pathLength){
