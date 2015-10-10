@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Board {
@@ -38,18 +39,18 @@ public class Board {
 	}
 
 	//NONPARAMETERIZED VERSION OF THIS FUNCTION NEEDED ACCORDING TO ClueGameTests IMPLEMENTATION
-	public void loadRoomConfig(){
+	public void loadRoomConfig()throws BadConfigFormatException, FileNotFoundException{
 		
 	}
-	public void loadRoomConfig(String roomConfigFile){
-		//to be used in CR_FileInitTests unit tests
+	public void loadRoomConfig(String roomConfigFile)throws BadConfigFormatException, FileNotFoundException{
+		
 	}
 	//NONPARAMETERIZED VERSION OF THIS FUNCTION NEEDED ACCORDING TO ClueGameTests IMPLEMENTATION
-	public void loadBoardConfig(){
+	public void loadBoardConfig()throws BadConfigFormatException, FileNotFoundException{
 		
 	}
-	public void loadBoardConfig(String filename){
-		//to be used in CR_FileInitTests unit tests		
+	public void loadBoardConfig(String filename) throws BadConfigFormatException, FileNotFoundException {
+			
 	}
 	public void calcAdjacencies(){
 		
