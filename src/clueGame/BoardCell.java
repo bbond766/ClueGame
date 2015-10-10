@@ -5,14 +5,17 @@ public class BoardCell {
 	private int column;
 	private char initial;
 	
+	public char getInitial(){
+		return initial;
+	}
 	public boolean isWalkway(){
-		return null;
+		return false;
 	}
 	public boolean isRoom(){
-		return null;
+		return false;
 	}
 	public boolean isDoorway(){
-		return null;
+		return false;
 	}
 	
 	

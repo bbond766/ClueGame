@@ -13,14 +13,43 @@ public class Board {
 	private String boardConfigFile;
 	private String roomConfigFile;
 	
+	public Board(){
+		
+	}
+	public Board(String roomConfigFile, String BoardConfigFile){
+		
+	}
+	
 	public void initialize(){
+		/*try{
+			
+		}
+		catch(); */
+	}
+	public Map<Character, String> getRooms(){
+		return rooms;
+	}
+	public int getNumRows(){
+		return numRows;
+	}
+
+	public int getNumColumns(){
+		return numColumns;
+	}
+
+	//NONPARAMETERIZED VERSION OF THIS FUNCTION NEEDED ACCORDING TO ClueGameTests IMPLEMENTATION
+	public void loadRoomConfig(){
 		
 	}
 	public void loadRoomConfig(String roomConfigFile){
+		//to be used in CR_FileInitTests unit tests
+	}
+	//NONPARAMETERIZED VERSION OF THIS FUNCTION NEEDED ACCORDING TO ClueGameTests IMPLEMENTATION
+	public void loadBoardConfig(){
 		
 	}
 	public void loadBoardConfig(String filename){
-		
+		//to be used in CR_FileInitTests unit tests		
 	}
 	public void calcAdjacencies(){
 		
@@ -38,5 +67,6 @@ public class Board {
 		// TODO Auto-generated method stub
 
 	}
+	
 
 }
