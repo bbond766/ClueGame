@@ -24,8 +24,11 @@ public class BoardCell {
 	public DoorDirection getDoorDirection(){
 		return doorDirection;
 	}
+	public int getRow(){
+		return row;
+	}
 	public char getInitial(){
-		return initial;
+		return this.initial;
 	}
 	public boolean isWalkway(){
 		return this.isWalkway;

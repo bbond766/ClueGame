@@ -9,12 +9,13 @@ import java.util.*;
 public class Board {
 	public static final int NUM_ROWS = 22;
 	public static final int NUM_COLUMNS = 23;
-	private BoardCell board[][];
+	private static BoardCell board[][];
+
 	private static Map<Character, String> rooms;
-	private Map<BoardCell, LinkedList<BoardCell>> adjMatrix;
-	private Set<BoardCell> targets;
-	private String boardConfigFile;
-	private String roomConfigFile;
+	private static Map<BoardCell, LinkedList<BoardCell>> adjMatrix;
+	private static Set<BoardCell> targets;
+	private static String boardConfigFile;
+	private static String roomConfigFile;
 	String[] id;
 	
 	
@@ -103,18 +104,16 @@ public class Board {
 			String cvsSplitBy = ",";
 			String[] id;
 			br = new BufferedReader(new FileReader(this.boardConfigFile));
-			while ((line = br.readLine()) != null) {
+			for (int i = 0; i < NUM_ROWS; i++){
+				line = br.readLine();
 				id = line.split(cvsSplitBy);
 //				if (line.length() > NUM_COLUMNS){		//check me
 //					throw new BadConfigFormatException("The number of columns in the input config file for the room layout does not match NUM_COLUMNS");
 //				}
-				for (int i = 0; i < NUM_ROWS; i++){
 					for (int j = 0; j < NUM_COLUMNS; j++){
 						init = id[j].charAt(0);
 						isDoorway = false;
-						
 						if (id[j].length() > 1){
-			//				System.out.println(id[j]);
 							if (id[j].charAt(1) == 'L'){
 								isDoorway = true;
 								doorDirection = DoorDirection.LEFT;
@@ -135,15 +134,16 @@ public class Board {
 						if (init == 'W'){
 							isWalkway = true;
 						}
-						else
+						else{
 							isWalkway = false;
+						}
+//						System.out.println(i + "i j " + j + " " + init + "init isW " + isWalkway + "isD " + isDoorway + " dd " + doorDirection);
 						BoardCell bc = new BoardCell(i, j, init, isWalkway, isDoorway, doorDirection);
 						board[i][j] = bc;
+//						System.out.println("i " + i + " j " + j);
 						}
 					}
-				}
-//			System.out.println(board[21][17].isWalkway());
-			
+		//		}
 		}
 		catch(FileNotFoundException e){
 			System.out.println(e.getMessage());
@@ -177,7 +177,10 @@ public class Board {
 	
 	public static void main(String[] args) {
 		Board board = new Board();
-		board.initialize();;
+		board.initialize();
+		System.out.println(board.getCellAt(2, 5).getInitial());
+		System.out.println(board.getCellAt(0, 10).getInitial());
+		System.out.println(board.getCellAt(4, 8).getInitial());
 
 	}
 
