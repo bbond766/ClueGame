@@ -34,6 +34,7 @@ public class BoardCell {
 		return false;
 	}
 	public boolean isDoorway(){
+		System.out.println(isDoorway);
 		return isDoorway;
 	}
 	

@@ -23,7 +23,7 @@ public class Board {
 		rooms = new HashMap<Character, String>();
 		adjMatrix = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targets = new HashSet<BoardCell>();
-		boardConfigFile = "ClueLayout.csv";
+		boardConfigFile = "ClueLayout.csv";		//if set to "", very large result error; check error checking for FNFE
 		roomConfigFile = "ClueLegend.txt";
 	}
 	public Board(String roomConfigFile, String BoardConfigFile){
@@ -48,6 +48,7 @@ public class Board {
 		}
 	}
 	public Map<Character, String> getRooms(){
+//		System.out.println(rooms.get('C'));
 		return rooms;
 	}
 	public int getNumRows(){
@@ -66,7 +67,7 @@ public class Board {
 			char abbreviation;
 			String name = new String();
 			String type = new String();
-			String cvsSplitBy = ",";
+			String cvsSplitBy = (",[ ]*");
 			br = new BufferedReader(new FileReader(this.roomConfigFile));
 			while ((line = br.readLine()) != null) {
 				if (line.length() > NUM_COLUMNS){
@@ -96,9 +97,9 @@ public class Board {
 		try{
 			String line = new String();
 			int row, column;
-			char initial, dd;
+			char init, dd;
+			DoorDirection doorDirection = null;
 			boolean isWalkway, isDoorway;
-			DoorDirection doorDirection = DoorDirection.UP;
 			String cvsSplitBy = ",";
 			String[] id;
 			br = new BufferedReader(new FileReader(this.boardConfigFile));
@@ -109,36 +110,40 @@ public class Board {
 //				}
 				for (int i = 0; i < NUM_ROWS; i++){
 					for (int j = 0; j < NUM_COLUMNS; j++){
-						initial = id[j].charAt(0);
+						init = id[j].charAt(0);
 						isDoorway = false;
+						
 						if (id[j].length() > 1){
-							isDoorway = true;
-							dd = id[j].charAt(1);
-							switch (dd){
-							case 'U':
-								doorDirection = DoorDirection.UP;
-								break;
-							case 'D':
-								doorDirection = DoorDirection.DOWN;
-								break;
-							case 'L':
+			//				System.out.println(id[j]);
+							if (id[j].charAt(1) == 'L'){
+								isDoorway = true;
 								doorDirection = DoorDirection.LEFT;
-								break;
-							case 'R':
-								doorDirection = DoorDirection.RIGHT;
-								break;
+							}
+							else if (id[j].charAt(1) == 'R'){
+								isDoorway = true;
+								doorDirection = DoorDirection.LEFT;
+							}
+							else if (id[j].charAt(1) == 'U'){
+								isDoorway = true;
+								doorDirection = DoorDirection.LEFT;
+							}
+							else if (id[j].charAt(1) == 'D'){
+								isDoorway = true;
+								doorDirection = DoorDirection.LEFT;
 							}
 						}
-						if (initial == 'W')
+						if (init == 'W'){
 							isWalkway = true;
+						}
 						else
 							isWalkway = false;
-
-						BoardCell bc = new BoardCell(i, j, initial, isWalkway, isDoorway, doorDirection);
+						BoardCell bc = new BoardCell(i, j, init, isWalkway, isDoorway, doorDirection);
 						board[i][j] = bc;
 						}
 					}
 				}
+//			System.out.println(board[21][17].isWalkway());
+			
 		}
 		catch(FileNotFoundException e){
 			System.out.println(e.getMessage());
@@ -172,7 +177,7 @@ public class Board {
 	
 	public static void main(String[] args) {
 		Board board = new Board();
-		board.initialize();
+		board.initialize();;
 
 	}
 

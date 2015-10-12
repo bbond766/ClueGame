@@ -28,7 +28,7 @@ public class ClueGameTests_Config {
 	// The methods that test invalid config files will have a local 
 	// Board variable, so will not use this
 	private static Board board;
-	
+	private static Map<Character, String> rooms;
 	@BeforeClass
 	public static void setUp() {
 		// Create a new Board using the valid files. Note that
@@ -36,20 +36,18 @@ public class ClueGameTests_Config {
 		board = new Board();
 		// Initialize will load BOTH config files 
 		board.initialize();
-		Map<Character, String> rooms = board.getRooms();
+		rooms = board.getRooms();
 	}
 	@Test
 	public void testRooms() {
 		// rooms is static, see discussion in lab writeup
-		Map<Character, String> rooms = board.getRooms();
+//		Map<Character, String> rooms = board.getRooms();		//Here
+		System.out.println(rooms.size());
 		// Ensure we read the correct number of rooms
 		assertEquals(NUM_ROOMS, rooms.size());
 		// To ensure data is correctly loaded, test retrieving a few rooms 
 		// from the hash, including the first and last in the file and a few others
-		System.out.println("HERE");
 		System.out.println(rooms.get('C'));
-		System.out.println(rooms.get('B'));
-		
 		assertEquals("Conservatory", rooms.get('C'));
 		assertEquals("Ballroom", rooms.get('B'));
 		assertEquals("Billiard room", rooms.get('R'));
@@ -111,6 +109,7 @@ public class ClueGameTests_Config {
 	// Test a few room cells to ensure the room initial is correct.
 	@Test
 	public void testRoomInitials() {
+		System.out.println("HERE" + board.getCellAt(0, 0).getInitial());
 		assertEquals('C', board.getCellAt(0, 0).getInitial());
 		assertEquals('R', board.getCellAt(4, 8).getInitial());
 		assertEquals('B', board.getCellAt(9, 0).getInitial());
