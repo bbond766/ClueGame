@@ -36,6 +36,7 @@ public class ClueGameTests_Config {
 		board = new Board();
 		// Initialize will load BOTH config files 
 		board.initialize();
+		Map<Character, String> rooms = board.getRooms();
 	}
 	@Test
 	public void testRooms() {
@@ -45,12 +46,17 @@ public class ClueGameTests_Config {
 		assertEquals(NUM_ROOMS, rooms.size());
 		// To ensure data is correctly loaded, test retrieving a few rooms 
 		// from the hash, including the first and last in the file and a few others
+		System.out.println("HERE");
+		System.out.println(rooms.get('C'));
+		System.out.println(rooms.get('B'));
+		
 		assertEquals("Conservatory", rooms.get('C'));
 		assertEquals("Ballroom", rooms.get('B'));
 		assertEquals("Billiard room", rooms.get('R'));
 		assertEquals("Dining room", rooms.get('D'));
 		assertEquals("Walkway", rooms.get('W'));
 	}
+	
 	
 	@Test
 	public void testBoardDimensions() {
