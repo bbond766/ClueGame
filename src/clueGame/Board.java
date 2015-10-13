@@ -222,7 +222,34 @@ public class Board {
 	}
 	
 	public void calcTargets(int row, int col, int pathLength){
+		HashSet<BoardCell> visited = new HashSet<BoardCell>();
+		targets = new HashSet<BoardCell>();
+		BoardCell startCell = board[row][col];
+		findAllTargets(startCell, pathLength, visited);
+		return;
+	}
+	private void findAllTargets(BoardCell startCell, int numSteps, HashSet<BoardCell> visited) {
+		LinkedList<BoardCell> temp = new LinkedList<BoardCell>();
+		temp = adjMatrix.get(startCell);
+		visited.add(startCell);
 		
+		if (numSteps == 0){
+			targets.add(startCell);		//confirm
+		}
+		else if(startCell.isDoorway()){
+			targets.add(startCell);
+		}
+		else{
+			while (temp.size() > 0){
+				//pop off
+				BoardCell next = temp.remove(0);
+				if (!visited.contains(next)){
+					visited.add(next);
+					findAllTargets(next, numSteps - 1, visited);
+				}
+			}
+		}
+		visited.remove(startCell);
 	}
 	public BoardCell getCellAt(int row, int col){
 		System.out.println("row, col, initial" + board[row][col].getInitial());
