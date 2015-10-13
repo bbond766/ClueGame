@@ -67,9 +67,9 @@ public class ClueBoardAdjacencyTests {
 		assertEquals(1, testList.size());
 		assertTrue(testList.contains(board.getCellAt(17, 11)));
 		//TEST DOORWAY DOWN
-		testList = board.getAdjList(5, 12);
+		testList = board.getAdjList(4, 12);
 		assertEquals(1, testList.size());
-		assertTrue(testList.contains(board.getCellAt(6, 12)));
+		assertTrue(testList.contains(board.getCellAt(5, 12)));
 		//TEST DOORWAY UP
 		testList = board.getAdjList(16, 0);
 		assertEquals(1, testList.size());
@@ -241,20 +241,6 @@ public class ClueBoardAdjacencyTests {
 	
 	// Tests of just walkways plus one door, 6 steps
 	// These are LIGHT BLUE on the planning spreadsheet
-
-/*	@Test
-	public void testTargetsSixSteps() {
-		board.calcTargets(15, 4, 6);
-		Set<BoardCell> targets= board.getTargets();
-		assertEquals(7, targets.size());
-		assertTrue(targets.contains(board.getCellAt(14, 6)));
-		assertTrue(targets.contains(board.getCellAt(15, 5)));	
-		assertTrue(targets.contains(board.getCellAt(15, 3)));	
-		assertTrue(targets.contains(board.getCellAt(14, 4)));	
-		assertTrue(targets.contains(board.getCellAt(15, 1)));	
-		assertTrue(targets.contains(board.getCellAt(14, 2)));	
-		assertTrue(targets.contains(board.getCellAt(13, 4)));	
-	}	*/
 	
 	// Test getting into a room
 	// These are LIGHT BLUE on the planning spreadsheet

@@ -26,7 +26,7 @@ public class Board {
 		boardConfigFile = "ClueLayout.csv";		//if set to "", very large result error; check error checking for FNFE
 		roomConfigFile = "ClueLegend.txt";
 	}
-	public Board(String roomConfigFile, String BoardConfigFile){
+	public Board(String BoardConfigFile, String roomConfigFile){
 		board = new BoardCell[NUM_ROWS][NUM_COLUMNS];
 		rooms = new HashMap<Character, String>();
 		adjMatrix = new HashMap<BoardCell, LinkedList<BoardCell>>();
@@ -39,6 +39,7 @@ public class Board {
 		try{
 			loadRoomConfig();
 			loadBoardConfig();
+			calcAdjacencies();
 		}
 		catch(BadConfigFormatException e){
 			System.out.println(e.getMessage());
@@ -110,9 +111,7 @@ public class Board {
 					throw new BadConfigFormatException(id.length + "The number of columns in the input config file for the room layout does not match NUM_COLUMNS");
 				}
 					for (int j = 0; j < NUM_COLUMNS; j++){
-						System.out.println("J " + j);
 						init = id[j].charAt(0);
-						System.out.println(init + " " + j);
 						isDoorway = false;
 						if (id[j].length() > 1){
 							if (id[j].charAt(1) == 'L'){
@@ -171,47 +170,55 @@ public class Board {
 						if (checkIfValidAdjCell(nextCell)||(nextCell.isDoorway() && nextCell.getDoorDirection() == DoorDirection.DOWN))
 							adj.add(nextCell);
 					}
-					if (adjCell.getRow() + 1 < NUM_COLUMNS){
+					if (adjCell.getRow() + 1 < NUM_ROWS){
 						nextCell = board[i + 1][j];
 						if (checkIfValidAdjCell(nextCell)||(nextCell.isDoorway() && nextCell.getDoorDirection() == DoorDirection.UP))
 							adj.add(nextCell);
 					}
 					if (adjCell.getCol() - 1 >= 0){
 						nextCell = board[i][j - 1];
-						if (checkIfValidAdjCell(nextCell)||(nextCell.isDoorway() && nextCell.getDoorDirection() == DoorDirection.LEFT))
-							adj.add(nextCell);
-					}
-					if (adjCell.getCol() + 1 < NUM_ROWS){
-						nextCell = board[i][j + 1];
 						if (checkIfValidAdjCell(nextCell)||(nextCell.isDoorway() && nextCell.getDoorDirection() == DoorDirection.RIGHT))
 							adj.add(nextCell);
 					}
+					if (adjCell.getCol() + 1 < NUM_COLUMNS){
+						nextCell = board[i][j + 1];
+						if (checkIfValidAdjCell(nextCell)||(nextCell.isDoorway() && nextCell.getDoorDirection() == DoorDirection.LEFT))
+							adj.add(nextCell);
+					}
+				}
+				else if(adjCell.isDoorway()){
+					if(adjCell.getDoorDirection() == DoorDirection.LEFT){
+						if(j-1>=0){
+							nextCell = board[i][j-1];
+							adj.add(nextCell);
+						}
+					}
+					if(adjCell.getDoorDirection() == DoorDirection.RIGHT){
+						if(j < (NUM_COLUMNS-1)){
+							nextCell = board[i][j+1];
+							adj.add(nextCell);
+						}
+					}
+					if(adjCell.getDoorDirection() == DoorDirection.UP){
+						if (i >= 0){
+							nextCell = board[i-1][j];
+							adj.add(nextCell);
+						}
+					}
+					if(adjCell.getDoorDirection() == DoorDirection.DOWN){
+						if(i < (NUM_ROWS-1)){
+							nextCell = board[i+1][j];
+							adj.add(nextCell);
+						}
+					}
 				}
 				else{
-					if (adjCell.getRow() - 1 >= 0){
-						nextCell = board[i - 1][j];
-						if(nextCell.isDoorway())
-							adj.add(nextCell);
-					}
-					if (adjCell.getRow() + 1 < NUM_COLUMNS){
-						nextCell = board[i + 1][j];
-						if(nextCell.isDoorway())
-							adj.add(nextCell);
-					}
-					if (adjCell.getCol() - 1 >= 0){
-						nextCell = board[i][j - 1];
-						if(nextCell.isDoorway())
-							adj.add(nextCell);
-					}
-					if (adjCell.getCol() + 1 < NUM_ROWS){
-						nextCell = board[i][j + 1];
-						if(nextCell.isDoorway())
-							adj.add(nextCell);
-					}
+					adj.clear();
 				}
 				adjMatrix.put(adjCell,adj);
 			}
 		}
+		BoardCell bc3 = board[21][7];
 	}
 	
 	public boolean checkIfValidAdjCell(BoardCell bc){
@@ -225,6 +232,7 @@ public class Board {
 		HashSet<BoardCell> visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
 		BoardCell startCell = board[row][col];
+		visited.clear();
 		findAllTargets(startCell, pathLength, visited);
 		return;
 	}
@@ -234,7 +242,7 @@ public class Board {
 		visited.add(startCell);
 		
 		if (numSteps == 0){
-			targets.add(startCell);		//confirm
+			targets.add(startCell);		
 		}
 		else if(startCell.isDoorway()){
 			targets.add(startCell);
@@ -252,7 +260,6 @@ public class Board {
 		visited.remove(startCell);
 	}
 	public BoardCell getCellAt(int row, int col){
-		System.out.println("row, col, initial" + board[row][col].getInitial());
 		return board[row][col];
 	}
 	
