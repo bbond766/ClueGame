@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -27,21 +28,21 @@ public class ClueGameTests_Config {
 	// time (using @BeforeClass), no need to do setup before each test.
 	// The methods that test invalid config files will have a local 
 	// Board variable, so will not use this
-	private static Board board;
-	private static Map<Character, String> rooms;
-	@BeforeClass
-	public static void setUp() {
+	private Board board;
+	private Map<Character, String> rooms;
+	@Before
+	public void setUp() {
+		System.out.println("Running @BeforeClass for FirstTest");
 		// Create a new Board using the valid files. Note that
 		// the default filenames must be attributes of the Board class. 
 		board = new Board();
 		// Initialize will load BOTH config files 
 		board.initialize();
-		rooms = board.getRooms();
 	}
 	@Test
 	public void testRooms() {
 		// rooms is static, see discussion in lab writeup
-//		Map<Character, String> rooms = board.getRooms();		//Here
+		Map<Character, String> rooms = board.getRooms();		//Here
 		// Ensure we read the correct number of rooms
 		assertEquals(NUM_ROOMS, rooms.size());
 		// To ensure data is correctly loaded, test retrieving a few rooms 
@@ -68,7 +69,6 @@ public class ClueGameTests_Config {
 	public void FourDoorDirections() {
 		// Test one each RIGHT/LEFT/UP/DOWN
 		BoardCell room = board.getCellAt(4, 3);
-		System.out.println(board.getCellAt(4, 3));
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.RIGHT, room.getDoorDirection());
 		room = board.getCellAt(4, 8);
@@ -86,7 +86,6 @@ public class ClueGameTests_Config {
 		// Test that walkways are not doors
 		BoardCell cell = board.getCellAt(0, 6);
 		assertFalse(cell.isDoorway());		
-
 	}
 	
 	// Test that we have the correct number of doors
@@ -98,11 +97,9 @@ public class ClueGameTests_Config {
 		Assert.assertEquals(506, totalCells);
 		for (int row=0; row<board.getNumRows(); row++)
 			for (int col=0; col<board.getNumColumns(); col++) {
-				BoardCell cell = board.getCellAt(row, col);
+				BoardCell cell = board.getCellAt(row, col);				//having problems with getCellAt
 				if (cell.isDoorway())
 					numDoors++;
-//				System.out.println("here");
-//				continue;
 			}
 		Assert.assertEquals(16, numDoors);
 	}
@@ -110,7 +107,6 @@ public class ClueGameTests_Config {
 	// Test a few room cells to ensure the room initial is correct.
 	@Test
 	public void testRoomInitials() {
-
 		assertEquals('C', board.getCellAt(0, 0).getInitial());
 		assertEquals('R', board.getCellAt(4, 8).getInitial());
 		assertEquals('B', board.getCellAt(9, 0).getInitial());

@@ -10,7 +10,6 @@ public class Board {
 	public static final int NUM_ROWS = 22;
 	public static final int NUM_COLUMNS = 23;
 	private static BoardCell board[][];
-
 	private static Map<Character, String> rooms;
 	private static Map<BoardCell, LinkedList<BoardCell>> adjMatrix;
 	private static Set<BoardCell> targets;
@@ -33,7 +32,7 @@ public class Board {
 		adjMatrix = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targets = new HashSet<BoardCell>();
 		boardConfigFile = BoardConfigFile;
-		this.roomConfigFile = roomConfigFile;
+		Board.roomConfigFile = roomConfigFile;
 	}
 	
 	public void initialize(){
@@ -49,8 +48,7 @@ public class Board {
 		}
 	}
 	public Map<Character, String> getRooms(){
-//		System.out.println(rooms.get('C'));
-		return rooms;
+		return Board.rooms;
 	}
 	public int getNumRows(){
 		return NUM_ROWS;
@@ -69,7 +67,7 @@ public class Board {
 			String name = new String();
 			String type = new String();
 			String cvsSplitBy = (",[ ]*");
-			br = new BufferedReader(new FileReader(this.roomConfigFile));
+			br = new BufferedReader(new FileReader(Board.roomConfigFile));
 			while ((line = br.readLine()) != null) {
 				if (line.length() > NUM_COLUMNS){
 					throw new BadConfigFormatException("The number of columns in the input config file for the room layout does not match NUM_COLUMNS");
@@ -80,6 +78,7 @@ public class Board {
 				type = id[2];
 				rooms.put(abbreviation, name);
 			}
+			br.close();
 		}
 		catch(FileNotFoundException e){
 			System.out.println(e.getMessage());
@@ -89,7 +88,7 @@ public class Board {
 		} 
 	}
 	public void loadRoomConfig(String roomConfigFile)throws BadConfigFormatException, FileNotFoundException{
-		this.roomConfigFile = roomConfigFile;
+		Board.roomConfigFile = roomConfigFile;
 		loadRoomConfig();
 	}
 //	NONPARAMETERIZED VERSION OF THIS FUNCTION NEEDED ACCORDING TO ClueGameTests IMPLEMENTATION
@@ -97,19 +96,18 @@ public class Board {
 		BufferedReader br;
 		try{
 			String line = new String();
-			int row, column;
 			char init, dd;
 			DoorDirection doorDirection = null;
 			boolean isWalkway, isDoorway;
 			String cvsSplitBy = ",";
 			String[] id;
-			br = new BufferedReader(new FileReader(this.boardConfigFile));
+			br = new BufferedReader(new FileReader(Board.boardConfigFile));
 			for (int i = 0; i < NUM_ROWS; i++){
 				line = br.readLine();
 				id = line.split(cvsSplitBy);
-//				if (line.length() > NUM_COLUMNS){		//check me
-//					throw new BadConfigFormatException("The number of columns in the input config file for the room layout does not match NUM_COLUMNS");
-//				}
+				if (id.length > NUM_COLUMNS){		
+					throw new BadConfigFormatException("The number of columns in the input config file for the room layout does not match NUM_COLUMNS");
+				}
 					for (int j = 0; j < NUM_COLUMNS; j++){
 						init = id[j].charAt(0);
 						isDoorway = false;
@@ -120,15 +118,15 @@ public class Board {
 							}
 							else if (id[j].charAt(1) == 'R'){
 								isDoorway = true;
-								doorDirection = DoorDirection.LEFT;
+								doorDirection = DoorDirection.RIGHT;
 							}
 							else if (id[j].charAt(1) == 'U'){
 								isDoorway = true;
-								doorDirection = DoorDirection.LEFT;
+								doorDirection = DoorDirection.UP;
 							}
 							else if (id[j].charAt(1) == 'D'){
 								isDoorway = true;
-								doorDirection = DoorDirection.LEFT;
+								doorDirection = DoorDirection.DOWN;
 							}
 						}
 						if (init == 'W'){
@@ -137,13 +135,12 @@ public class Board {
 						else{
 							isWalkway = false;
 						}
-//						System.out.println(i + "i j " + j + " " + init + "init isW " + isWalkway + "isD " + isDoorway + " dd " + doorDirection);
 						BoardCell bc = new BoardCell(i, j, init, isWalkway, isDoorway, doorDirection);
 						board[i][j] = bc;
-//						System.out.println("i " + i + " j " + j);
 						}
 					}
 		//		}
+			br.close();
 		}
 		catch(FileNotFoundException e){
 			System.out.println(e.getMessage());
@@ -154,7 +151,7 @@ public class Board {
 	}
 	
 	public void loadBoardConfig(String filename) throws BadConfigFormatException, FileNotFoundException {
-			this.boardConfigFile = filename;
+			Board.boardConfigFile = filename;
 			loadBoardConfig();
 	}
 	public void calcAdjacencies(){
@@ -164,6 +161,7 @@ public class Board {
 		
 	}
 	public BoardCell getCellAt(int row, int col){
+		System.out.println("row, col, initial" + board[row][col].getInitial());
 		return board[row][col];
 	}
 	
@@ -171,17 +169,12 @@ public class Board {
 		return null;
 	}
 	public Set<BoardCell> getTargets() {
-		// TODO Auto-generated method stub
-		return null;
+		return targets;
 	}
 	
 	public static void main(String[] args) {
-		Board board = new Board();
-		board.initialize();
-		System.out.println(board.getCellAt(2, 5).getInitial());
-		System.out.println(board.getCellAt(0, 10).getInitial());
-		System.out.println(board.getCellAt(4, 8).getInitial());
-
+		Board boardHere = new Board();
+		boardHere.initialize();
 	}
 
 }

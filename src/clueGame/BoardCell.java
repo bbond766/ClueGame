@@ -9,7 +9,8 @@ public class BoardCell {
 	private DoorDirection doorDirection;
 	
 	BoardCell(){
-		
+		isWalkway = false;
+		isDoorway = false;
 	}
 	
 	BoardCell(int row, int col, char initial, boolean isWalk, boolean isDoorway, DoorDirection dd){
@@ -22,10 +23,10 @@ public class BoardCell {
 	}
 	
 	public DoorDirection getDoorDirection(){
-		return doorDirection;
+		return this.doorDirection;
 	}
 	public int getRow(){
-		return row;
+		return this.row;
 	}
 	public char getInitial(){
 		return this.initial;
@@ -34,11 +35,10 @@ public class BoardCell {
 		return this.isWalkway;
 	}
 	public boolean isRoom(){
-		return false;
+		return !this.isWalkway;
 	}
 	public boolean isDoorway(){
-		System.out.println(isDoorway);
-		return isDoorway;
+		return this.isDoorway;
 	}
 	
 	
