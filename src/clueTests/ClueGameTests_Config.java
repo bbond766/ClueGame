@@ -28,10 +28,9 @@ public class ClueGameTests_Config {
 	// time (using @BeforeClass), no need to do setup before each test.
 	// The methods that test invalid config files will have a local 
 	// Board variable, so will not use this
-	private Board board;
-	private Map<Character, String> rooms;
-	@Before
-	public void setUp() {
+	private static Board board;
+	@BeforeClass
+	public static void setUp() {
 		System.out.println("Running @BeforeClass for FirstTest");
 		// Create a new Board using the valid files. Note that
 		// the default filenames must be attributes of the Board class. 
@@ -44,6 +43,7 @@ public class ClueGameTests_Config {
 		// rooms is static, see discussion in lab writeup
 		Map<Character, String> rooms = board.getRooms();		//Here
 		// Ensure we read the correct number of rooms
+		
 		assertEquals(NUM_ROOMS, rooms.size());
 		// To ensure data is correctly loaded, test retrieving a few rooms 
 		// from the hash, including the first and last in the file and a few others
