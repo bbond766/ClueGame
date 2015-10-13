@@ -28,6 +28,9 @@ public class BoardCell {
 	public int getRow(){
 		return this.row;
 	}
+	public int getCol(){
+		return this.column;
+	}
 	public char getInitial(){
 		return this.initial;
 	}

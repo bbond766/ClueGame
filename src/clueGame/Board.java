@@ -155,7 +155,30 @@ public class Board {
 			loadBoardConfig();
 	}
 	public void calcAdjacencies(){
-		
+		for(int i = 0; i<NUM_ROWS; i++){
+			for(int j =0; j<NUM_COLUMNS; j++){
+				LinkedList<BoardCell> adj = new LinkedList<BoardCell>();
+				BoardCell adjCell = board[i][j];
+				BoardCell nextCell = new BoardCell();
+				if (adjCell.getRow() - 1 >= 0){
+					nextCell = board[i - 1][j];
+					adj.add(nextCell);
+				}
+				if (adjCell.getRow() + 1 < NUM_COLUMNS){
+					nextCell = board[i + 1][j];
+					adj.add(nextCell);
+				}
+				if (adjCell.getCol() - 1 >= 0){
+					nextCell = board[i][j - 1];
+					adj.add(nextCell);
+				}
+				if (adjCell.getCol() + 1 < NUM_ROWS){
+					nextCell = board[i][j + 1];
+					adj.add(nextCell);
+				}
+				adjMatrix.put(adjCell,adj);
+			}
+		}
 	}
 	public void calcTargets(int row, int col, int pathLength){
 		
@@ -166,7 +189,9 @@ public class Board {
 	}
 	
 	public LinkedList<BoardCell> getAdjList(int i, int j) {
-		return null;
+		//get linked list from adjMatrix map 
+		BoardCell bc = board[i][j];
+		return adjMatrix.get(bc);
 	}
 	public Set<BoardCell> getTargets() {
 		return targets;
