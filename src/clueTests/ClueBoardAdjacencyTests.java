@@ -16,6 +16,9 @@ public class ClueBoardAdjacencyTests {
 	// We make the Board static because we can load it one time and 
 	// then do all the tests. 
 	private static Board board;
+	public static final int NUM_ROWS = 22;
+	public static final int NUM_COLUMNS = 23;
+	
 	@BeforeClass
 	public static void setUp() {
 		board = new Board("Clue_Map.csv", "ClueLegend.txt");
@@ -56,6 +59,7 @@ public class ClueBoardAdjacencyTests {
 	{
 		// TEST DOORWAY RIGHT 
 		LinkedList<BoardCell> testList = board.getAdjList(11, 5);
+;
 		assertEquals(1, testList.size());
 		assertTrue(testList.contains(board.getCellAt(11, 6)));
 		// TEST DOORWAY LEFT 
