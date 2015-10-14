@@ -39,7 +39,7 @@ public class Board {
 		try{
 			loadRoomConfig();
 			loadBoardConfig();
-//			calcAdjacencies();
+			calcAdjacencies();
 		}
 		catch(BadConfigFormatException e){
 			System.out.println(e.getMessage());
@@ -195,13 +195,13 @@ public class Board {
 				else if(adjCell.isDoorway()){
 					if(adjCell.getDoorDirection() == DoorDirection.RIGHT){
 						if(j-1>=0){
-							nextCell = board[i][j-1];
+							nextCell = board[i][j+1];
 							adj.add(nextCell);
 						}
 					}
 					if(adjCell.getDoorDirection() == DoorDirection.LEFT){
 						if(j < (NUM_COLUMNS-1)){
-							nextCell = board[i][j+1];
+							nextCell = board[i][j-1];
 							adj.add(nextCell);
 						}
 					}
@@ -239,18 +239,21 @@ public class Board {
 		BoardCell startCell = board[row][col];
 		visited.clear();
 		findAllTargets(startCell, pathLength, visited);
-		return;
 	}
 	private void findAllTargets(BoardCell startCell, int numSteps, HashSet<BoardCell> visited) {
 		LinkedList<BoardCell> temp = new LinkedList<BoardCell>();
 		temp = adjMatrix.get(startCell);
 		visited.add(startCell);
-		
 		if (numSteps == 0){
 			targets.add(startCell);		
 		}
-		else if(startCell.isDoorway()){
-			targets.add(startCell);
+		else if(numSteps == 1){
+			LinkedList<BoardCell> ll = adjMatrix.get(startCell);
+			for(int i = 0; i<ll.size();i++){
+				if(!visited.contains(ll.get(i))){
+					targets.add(ll.get(i));
+				}
+			}
 		}
 		else{
 			while (temp.size() > 0){
@@ -258,7 +261,12 @@ public class Board {
 				BoardCell next = temp.remove(0);
 				if (!visited.contains(next)){
 					visited.add(next);
-					findAllTargets(next, numSteps - 1, visited);
+					if(next.isDoorway()){
+						targets.add(next);
+					}
+					else{
+						findAllTargets(next, numSteps - 1, visited);
+					}
 				}
 			}
 		}
