@@ -74,10 +74,15 @@ public class Board {
 				if (id.length - 1 > NUM_COLUMNS){
 					throw new BadConfigFormatException(id.length + "The number of columns in the input config file for the room layout does not match NUM_COLUMNS");
 				}
+				if(id.length<3){
+					throw new BadConfigFormatException(id.length + "The legend file is not formated correctly");
+				}
+				else{
 				abbreviation = id[0].charAt(0);
 				name = id[1];
-				type = id[2];
+				type = id[2];//causes error in bad config file tests
 				rooms.put(abbreviation, name);
+				}
 			}
 			br.close();
 		}
@@ -111,7 +116,10 @@ public class Board {
 					throw new BadConfigFormatException(id.length + "The number of columns in the input config file for the room layout does not match NUM_COLUMNS");
 				}
 					for (int j = 0; j < NUM_COLUMNS; j++){
-						if (rooms.containsKey(id[j].charAt(0))){
+						if(id.length<NUM_COLUMNS-1){
+							throw new BadConfigFormatException("The amount of Columns in the file is incorrect");
+						}
+						else if (rooms.containsKey(id[j].charAt(0))){
 							init = id[j].charAt(0);
 						}
 						else{
