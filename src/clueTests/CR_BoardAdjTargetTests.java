@@ -228,13 +228,13 @@ public class CR_BoardAdjTargetTests {
 		board.calcTargets(14, 0, 6);
 		Set<BoardCell> targets= board.getTargets();
 		assertEquals(7, targets.size());
-//		assertTrue(targets.contains(board.getCellAt(14, 6)));
+		assertTrue(targets.contains(board.getCellAt(14, 6)));
 		assertTrue(targets.contains(board.getCellAt(15, 5)));	
 		assertTrue(targets.contains(board.getCellAt(15, 3)));	
 		assertTrue(targets.contains(board.getCellAt(14, 4)));	
-//		assertTrue(targets.contains(board.getCellAt(15, 1)));	
+		assertTrue(targets.contains(board.getCellAt(15, 1)));	
 		assertTrue(targets.contains(board.getCellAt(14, 2)));	
-//		assertTrue(targets.contains(board.getCellAt(13, 4)));	
+		assertTrue(targets.contains(board.getCellAt(13, 4)));	
 	}	
 	
 	// Test getting into a room

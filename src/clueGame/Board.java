@@ -237,7 +237,7 @@ public class Board {
 		HashSet<BoardCell> visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
 		BoardCell startCell = board[row][col];
-		visited.clear();
+//		visited.clear();
 		findAllTargets(startCell, pathLength, visited);
 	}
 	private void findAllTargets(BoardCell startCell, int numSteps, HashSet<BoardCell> visited) {
@@ -285,6 +285,7 @@ public class Board {
 	public static void main(String[] args) {
 		Board boardHere = new Board();
 		boardHere.initialize();
+		
 	}
 
 }
