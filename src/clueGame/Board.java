@@ -71,6 +71,7 @@ public class Board {
 			br = new BufferedReader(new FileReader(roomConfigFile));
 			while ((line = br.readLine()) != null) {
 				id = line.split(cvsSplitBy);// use comma as separator
+				System.out.println("id length " + id.length);
 				if (id.length - 1 > NUM_COLUMNS){
 					throw new BadConfigFormatException(id.length + "The number of columns in the input config file for the room layout does not match NUM_COLUMNS");
 				}
@@ -107,11 +108,16 @@ public class Board {
 				line = br.readLine();
 				id = line.split(cvsSplitBy);
 				
-				if (id.length -1 > NUM_COLUMNS){	
+				if ((id.length - 1) > NUM_COLUMNS){	
 					throw new BadConfigFormatException(id.length + "The number of columns in the input config file for the room layout does not match NUM_COLUMNS");
 				}
 					for (int j = 0; j < NUM_COLUMNS; j++){
-						init = id[j].charAt(0);
+						if (rooms.containsKey(id[j].charAt(0))){
+							init = id[j].charAt(0);
+						}
+						else{
+							throw new BadConfigFormatException("The room specified " + id[j].charAt(0) + " does not correspond to an allowed direction");
+						}
 						isDoorway = false;
 						if (id[j].length() > 1){
 							if (id[j].charAt(1) == 'L'){
@@ -130,6 +136,7 @@ public class Board {
 								isDoorway = true;
 								doorDirection = DoorDirection.DOWN;
 							}
+			
 						}
 						if (init == 'W'){
 							isWalkway = true;
@@ -187,20 +194,20 @@ public class Board {
 					}
 				}
 				else if(adjCell.isDoorway()){
-					if(adjCell.getDoorDirection() == DoorDirection.LEFT){
+					if(adjCell.getDoorDirection() == DoorDirection.RIGHT){
 						if(j-1>=0){
 							nextCell = board[i][j-1];
 							adj.add(nextCell);
 						}
 					}
-					if(adjCell.getDoorDirection() == DoorDirection.RIGHT){
+					if(adjCell.getDoorDirection() == DoorDirection.LEFT){
 						if(j < (NUM_COLUMNS-1)){
 							nextCell = board[i][j+1];
 							adj.add(nextCell);
 						}
 					}
 					if(adjCell.getDoorDirection() == DoorDirection.UP){
-						if (i >= 0){
+						if (i > 0){
 							nextCell = board[i-1][j];
 							adj.add(nextCell);
 						}
@@ -218,7 +225,6 @@ public class Board {
 				adjMatrix.put(adjCell,adj);
 			}
 		}
-		BoardCell bc3 = board[21][7];
 	}
 	
 	public boolean checkIfValidAdjCell(BoardCell bc){
