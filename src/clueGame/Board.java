@@ -170,7 +170,7 @@ public class Board {
 			boardConfigFile = filename;
 			loadBoardConfig();
 	}
-	public void calcAdjacencies(){		
+	public void calcAdjacencies(){	
 		for(int i = 0; i<NUM_ROWS; i++){
 			for(int j =0; j<NUM_COLUMNS; j++){
 				LinkedList<BoardCell> adj = new LinkedList<BoardCell>();
@@ -226,9 +226,6 @@ public class Board {
 						}
 					}
 				}
-				else{
-					adj.clear();
-				}
 				adjMatrix.put(adjCell,adj);
 			}
 		}
@@ -245,12 +242,10 @@ public class Board {
 		HashSet<BoardCell> visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
 		BoardCell startCell = board[row][col];
-//		visited.clear();
 		findAllTargets(startCell, pathLength, visited);
 	}
 	private void findAllTargets(BoardCell startCell, int numSteps, HashSet<BoardCell> visited) {
-		LinkedList<BoardCell> temp = new LinkedList<BoardCell>();
-		temp = adjMatrix.get(startCell);
+		LinkedList<BoardCell> temp = new LinkedList<BoardCell>(adjMatrix.get(startCell));
 		visited.add(startCell);
 		if(numSteps == 1){
 			LinkedList<BoardCell> ll = adjMatrix.get(startCell);

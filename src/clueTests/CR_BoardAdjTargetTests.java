@@ -168,13 +168,13 @@ public class CR_BoardAdjTargetTests {
 	public void testTargetsOneStep() {
 		board.calcTargets(21, 7, 1);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(2, targets.size());
+		assertEquals(2, targets.size());//sees 0
 		assertTrue(targets.contains(board.getCellAt(20, 7)));
 		assertTrue(targets.contains(board.getCellAt(21, 6)));	
 		
 		board.calcTargets(14, 0, 1);
 		targets= board.getTargets();
-		assertEquals(3, targets.size());
+		assertEquals(3, targets.size());//sees 0
 		assertTrue(targets.contains(board.getCellAt(14, 1)));
 		assertTrue(targets.contains(board.getCellAt(13, 0)));	
 		assertTrue(targets.contains(board.getCellAt(15, 0)));			
@@ -192,7 +192,7 @@ public class CR_BoardAdjTargetTests {
 		
 		board.calcTargets(14, 0, 2);
 		targets= board.getTargets();
-		assertEquals(3, targets.size());
+		assertEquals(3, targets.size());//sees 0
 		assertTrue(targets.contains(board.getCellAt(12, 0)));
 		assertTrue(targets.contains(board.getCellAt(14, 2)));	
 		assertTrue(targets.contains(board.getCellAt(15, 1)));			
@@ -204,7 +204,7 @@ public class CR_BoardAdjTargetTests {
 	public void testTargetsFourSteps() {
 		board.calcTargets(21, 7, 4);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(4, targets.size());
+		assertEquals(4, targets.size());//sees 0
 		assertTrue(targets.contains(board.getCellAt(17, 7)));
 		assertTrue(targets.contains(board.getCellAt(19, 7)));
 		assertTrue(targets.contains(board.getCellAt(18, 6)));
@@ -213,7 +213,7 @@ public class CR_BoardAdjTargetTests {
 		// Includes a path that doesn't have enough length
 		board.calcTargets(14, 0, 4);
 		targets= board.getTargets();
-		assertEquals(4, targets.size());
+		assertEquals(4, targets.size());//sees 0
 		assertTrue(targets.contains(board.getCellAt(14, 4)));
 		assertTrue(targets.contains(board.getCellAt(15, 3)));	
 		assertTrue(targets.contains(board.getCellAt(14, 2)));	
@@ -227,14 +227,14 @@ public class CR_BoardAdjTargetTests {
 	public void testTargetsSixSteps() {
 		board.calcTargets(14, 0, 6);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(7, targets.size());
+		assertEquals(7, targets.size());//only sees 4
 		assertTrue(targets.contains(board.getCellAt(14, 6)));
 		assertTrue(targets.contains(board.getCellAt(15, 5)));	
 		assertTrue(targets.contains(board.getCellAt(15, 3)));	
 		assertTrue(targets.contains(board.getCellAt(14, 4)));	
-		assertTrue(targets.contains(board.getCellAt(15, 1)));	
+		assertTrue(targets.contains(board.getCellAt(15, 1)));
 		assertTrue(targets.contains(board.getCellAt(14, 2)));	
-		assertTrue(targets.contains(board.getCellAt(13, 4)));	
+		assertTrue(targets.contains(board.getCellAt(13, 4)));
 	}	
 	
 	// Test getting into a room
