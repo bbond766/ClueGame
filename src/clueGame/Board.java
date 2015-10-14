@@ -39,7 +39,7 @@ public class Board {
 		try{
 			loadRoomConfig();
 			loadBoardConfig();
-			calcAdjacencies();
+//			calcAdjacencies();
 		}
 		catch(BadConfigFormatException e){
 			System.out.println(e.getMessage());
@@ -71,7 +71,6 @@ public class Board {
 			br = new BufferedReader(new FileReader(roomConfigFile));
 			while ((line = br.readLine()) != null) {
 				id = line.split(cvsSplitBy);// use comma as separator
-				System.out.println("id length " + id.length);
 				if (id.length - 1 > NUM_COLUMNS){
 					throw new BadConfigFormatException(id.length + "The number of columns in the input config file for the room layout does not match NUM_COLUMNS");
 				}
@@ -104,10 +103,10 @@ public class Board {
 			String cvsSplitBy = ",";
 			String[] id;
 			br = new BufferedReader(new FileReader(boardConfigFile));
+
 			for (int i = 0; i < NUM_ROWS; i++){
 				line = br.readLine();
 				id = line.split(cvsSplitBy);
-				
 				if ((id.length - 1) > NUM_COLUMNS){	
 					throw new BadConfigFormatException(id.length + "The number of columns in the input config file for the room layout does not match NUM_COLUMNS");
 				}
@@ -148,7 +147,7 @@ public class Board {
 						board[i][j] = bc;
 						}
 					}
-		//		}
+//				}
 			br.close();
 		}
 		catch(FileNotFoundException e){
