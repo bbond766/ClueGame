@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ import clueGame.BoardCell;
 import clueGame.ClueGame;
 import clueGame.DoorDirection;
 
-public class ClueGameTests_Adjacency_OurFile {
+public class CR_ClueGameTests_Config {
 	// Constants that I will use to test whether the file was loaded correctly
 	public static final int NUM_ROOMS = 11;
 	public static final int NUM_ROWS = 22;
@@ -28,7 +29,6 @@ public class ClueGameTests_Adjacency_OurFile {
 	// The methods that test invalid config files will have a local 
 	// Board variable, so will not use this
 	private static Board board;
-	
 	@BeforeClass
 	public static void setUp() {
 		// Create a new Board using the valid files. Note that
@@ -40,8 +40,9 @@ public class ClueGameTests_Adjacency_OurFile {
 	@Test
 	public void testRooms() {
 		// rooms is static, see discussion in lab writeup
-		Map<Character, String> rooms = board.getRooms();
+		Map<Character, String> rooms = board.getRooms();		//Here
 		// Ensure we read the correct number of rooms
+		
 		assertEquals(NUM_ROOMS, rooms.size());
 		// To ensure data is correctly loaded, test retrieving a few rooms 
 		// from the hash, including the first and last in the file and a few others
@@ -51,6 +52,7 @@ public class ClueGameTests_Adjacency_OurFile {
 		assertEquals("Dining room", rooms.get('D'));
 		assertEquals("Walkway", rooms.get('W'));
 	}
+	
 	
 	@Test
 	public void testBoardDimensions() {
@@ -83,7 +85,6 @@ public class ClueGameTests_Adjacency_OurFile {
 		// Test that walkways are not doors
 		BoardCell cell = board.getCellAt(0, 6);
 		assertFalse(cell.isDoorway());		
-
 	}
 	
 	// Test that we have the correct number of doors
@@ -95,28 +96,24 @@ public class ClueGameTests_Adjacency_OurFile {
 		Assert.assertEquals(506, totalCells);
 		for (int row=0; row<board.getNumRows(); row++)
 			for (int col=0; col<board.getNumColumns(); col++) {
-				BoardCell cell = board.getCellAt(row, col);
+				BoardCell cell = board.getCellAt(row, col);				//having problems with getCellAt
 				if (cell.isDoorway())
 					numDoors++;
 			}
-		Assert.assertEquals(19, numDoors);
+		Assert.assertEquals(16, numDoors);
 	}
 
 	// Test a few room cells to ensure the room initial is correct.
 	@Test
 	public void testRoomInitials() {
-		System.out.println(board.getCellAt(21, 0).getInitial());
 		assertEquals('C', board.getCellAt(0, 0).getInitial());
-		System.out.println(board.getCellAt(21, 4).getInitial());
-		
-		assertEquals('R', board.getCellAt(21, 4).getInitial());	
-		assertEquals('B', board.getCellAt(19, 14).getInitial());
-		assertEquals('O', board.getCellAt(0, 13).getInitial());
-
-		assertEquals('R', board.getCellAt(21, 0).getInitial());
+		assertEquals('R', board.getCellAt(4, 8).getInitial());
+		assertEquals('B', board.getCellAt(9, 0).getInitial());
+		assertEquals('O', board.getCellAt(21, 22).getInitial());
+		assertEquals('K', board.getCellAt(21, 0).getInitial());
 	}
 	
-//	 Test that an exception is thrown for a bad config file
+	// Test that an exception is thrown for a bad config file
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadColumns() throws BadConfigFormatException, FileNotFoundException {
 		// overloaded Game ctor takes config file names. See discussion of 
@@ -143,3 +140,5 @@ public class ClueGameTests_Adjacency_OurFile {
 		board.loadRoomConfig();
 	}
 }
+
+

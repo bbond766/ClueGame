@@ -244,10 +244,7 @@ public class Board {
 		LinkedList<BoardCell> temp = new LinkedList<BoardCell>();
 		temp = adjMatrix.get(startCell);
 		visited.add(startCell);
-		if (numSteps == 0){
-			targets.add(startCell);		
-		}
-		else if(numSteps == 1){
+		if(numSteps == 1){
 			LinkedList<BoardCell> ll = adjMatrix.get(startCell);
 			for(int i = 0; i<ll.size();i++){
 				if(!visited.contains(ll.get(i))){
