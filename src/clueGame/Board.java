@@ -58,7 +58,7 @@ public class Board {
 	public int getNumColumns(){
 		return NUM_COLUMNS;
 	}
-
+	
 	//NONPARAMETERIZED VERSION OF THIS FUNCTION NEEDED ACCORDING TO ClueGameTests IMPLEMENTATION	(C, Conservatory, Card)
 	public void loadRoomConfig()throws BadConfigFormatException, FileNotFoundException{
 		BufferedReader br;
@@ -284,6 +284,21 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
+	
+	public void loadConfig(){
+		//TO DO
+	}
+
+	public void selectAnswer(){
+		
+	}
+	public Card handleSuggestion(Solution suggestion, String accusingPlayer, BoardCell clicked){
+		return null;
+	}
+	public boolean checkAccusation(Solution accusation){
+		return false;
+	}
+	
 	
 	public static void main(String[] args) {
 		Board boardHere = new Board();
